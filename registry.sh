@@ -1,0 +1,1 @@
+docker run -d -p 5000:5000 --restart=always --name registry_server --network bridge registry:2

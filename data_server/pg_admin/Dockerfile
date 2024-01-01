@@ -1,0 +1,3 @@
+FROM dpage/pgadmin4
+ENV PGADMIN_DEFAULT_EMAIL safal0079.tech@gmail.com
+ENV PGADMIN_DEFAULT_PASSWORD safal.tech

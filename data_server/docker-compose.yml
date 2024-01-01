@@ -1,0 +1,23 @@
+version: "3"
+services:
+
+  postgre:
+    build: postgres
+    container_name: com.db.postgres
+    restart: always
+    expose:
+      - 5432
+
+  pg_admin:
+    build: pg_admin
+    container_name: com.db.admin
+    restart: always
+    ports: 
+      - 81:80
+
+volumes:
+  postgres_data: {}
+
+networks:
+  default:
+    name: shift_recorder_network
