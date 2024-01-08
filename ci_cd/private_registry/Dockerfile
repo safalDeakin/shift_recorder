@@ -1,0 +1,2 @@
+FROM registry:latest
+ENV REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY /registry-data

@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  jenkins:
+    build: jenkins
+    container_name: com.ci_cd.jenkins
+    restart: always
+    volumes:
+      - jenkins_data:/var/jenkins_home
+    ports:
+      - 83:8080
+    
+  private_registry:
+    build: private_registry
+    container_name: com.registry.docker
+    restart: always
+    ports:
+      - 84:5000
+    volumes:
+      - registry_data:/registry-data 
+
+volumes:
+  jenkins_data: {}
+  registry_data: {}
+
+networks:
+  default:
+    name: ci_cd_network
