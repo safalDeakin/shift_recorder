@@ -15,6 +15,7 @@ services:
     container_name: com.recorder.proxy
     restart: always
     ports: 
+      - 80:80
       - 8080:80
 
 volumes:
