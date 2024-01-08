@@ -17,11 +17,11 @@ services:
     ports:
       - 84:5000
     volumes:
-      - registry_data:/registry-data 
+      - private_registry_data:/registry-data 
 
 volumes:
   jenkins_data: {}
-  registry_data: {}
+  private_registry_data: {}
 
 networks:
   default:
