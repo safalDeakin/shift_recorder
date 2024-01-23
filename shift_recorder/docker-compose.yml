@@ -3,7 +3,7 @@ services:
 
   shift_recorder:
     build: app
-    image: shift_recorder/app:${BUILD_VERSION}
+    image: localhost:84/shift_recorder/app:${BUILD_VERSION}
     container_name: com.shift_recorder.api
     restart: always
     expose:
@@ -13,7 +13,7 @@ services:
 
   proxy:
     build: proxy
-    image: shift_recorder/proxy:${BUILD_VERSION}
+    image: localhost:84/shift_recorder/proxy:${BUILD_VERSION}
     container_name: com.shift_recorder.proxy
     restart: always
     ports: 
@@ -22,7 +22,7 @@ services:
   
   postgres:
     build: data_server/postgres
-    image: shift_recorder/data_server/postgres:${BUILD_VERSION}
+    image: localhost:84/shift_recorder/data_server/postgres:${BUILD_VERSION}
     container_name: com.data_server.postgres
     restart: always
     expose:
@@ -31,14 +31,18 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    # labels:
+    #   - "localhost:84/shift_recorder/data_server/postgres:${BUILD_VERSION}"
 
   # pg_admin:
   #   build: ./shift_recorder/data_server/pg_admin
-  #   image: shift_recorder/data_server/pg_admin:${BUILD_VERSION}
+  #   image: localhost:84/shift_recorder/data_server/pg_admin:${BUILD_VERSION}
   #   # container_name: com.data_server.pg_admin
   #   restart: always
   #   ports: 
   #     - 81:80
+  #   tags:
+  #     - 'localhost:84/shift_recorder/data_server/pg_admin:${BUILD_VERSION}'
 
 volumes:
   app_data: {}
