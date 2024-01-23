@@ -10,25 +10,27 @@ pipeline{
         stage('Build'){
             steps{
                 sh '''cd shift_recorder/app
+                    export BUILD_VERSION=$BUILD_NUMBER
                     docker compose build'''
             }
         }
         stage('Start'){
             steps{
                   sh '''cd shift_recorder/app
+                    export BUILD_VERSION=$BUILD_NUMBER
                     docker compose down'''
             }
         }
         stage('UnitTest'){
             steps{
                   sh '''cd shift_recorder/app
+                    export BUILD_VERSION=$BUILD_NUMBER
                     docker compose up --detach'''
             }
         }
         stage('IntegrationTest'){
             steps{
-                echo env.BUILD_NUMBER
-                echo env.JOB_NAME
+                echo "$BUILD_NUMBER"
                 echo "We are in the IntegrationTest stage"
             }
         }

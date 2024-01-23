@@ -6,6 +6,8 @@ RUN mkdir -p $MAIN_DIR && \
     pip install flask psycopg2-binary
 COPY . $MAIN_DIR
 WORKDIR $MAIN_DIR
+RUN echo "THIS is LS"
+RUN ls
 CMD ["python3", "main.py"]
 
 

@@ -6,9 +6,9 @@ app = Flask(__name__, template_folder='templates')
 
 @app.route('/')
 def index():
-    dao= DAO()
-    staff = dao.get(entity="staff", id=1)
-    print(staff)
+    # dao= DAO()
+    # staff = dao.get(entity="staff", id=1)
+    # print(staff)
     return render_template('index.html')
 
 # @app.route('/shift/start/<staff_id>', methods=['POST'])
