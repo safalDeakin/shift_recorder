@@ -1,6 +1,0 @@
-whoami
-cd data_server
-ls
-docker compose build
-
-0 6,18 * * *

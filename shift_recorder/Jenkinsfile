@@ -1,0 +1,44 @@
+// JenkinsFile for Dev Branch
+pipeline{
+    agent any
+    stages{
+        stage('Initialization'){
+            steps{
+               git branch: 'dev', url: 'https://github.com/safalDeakin/shift_recorder/'
+            }
+        }
+        stage('Build'){
+            steps{
+                sh '''cd shift_recorder/app
+                    docker compose build'''
+            }
+        }
+        stage('Start'){
+            steps{
+                  sh '''cd shift_recorder/app
+                    docker compose down'''
+            }
+        }
+        stage('UnitTest'){
+            steps{
+                  sh '''cd shift_recorder/app
+                    docker compose up --detach'''
+            }
+        }
+        stage('IntegrationTest'){
+            steps{
+                echo env.BUILD_NUMBER
+                echo env.JOB_NAME
+                echo "We are in the IntegrationTest stage"
+            }
+        }
+    }
+    post {
+                    success{
+                        echo " Successfull"
+                    }
+                    failure{
+                        echo "Not Successful"
+                    }
+                }
+}

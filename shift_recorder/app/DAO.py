@@ -6,7 +6,7 @@ class DAO:
     __database:str = 'shifts_recorder'
     __user:str = 'safal0079.tech@gmail.com'
     __pwd:str = 'safal.tech'
-    __host:str = 'com.db.postgres'
+    __host:str = 'localhost'
     __port:int = 5432
     
     def __init__(self):
