@@ -8,8 +8,8 @@ services:
     restart: always
     expose:
       - 5000
-    volumes:
-      - ./app:/app/code
+#    volumes:
+#      - ./app:/app/code
 
   proxy:
     build: proxy
