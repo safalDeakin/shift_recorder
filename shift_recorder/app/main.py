@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from model import Staff, Shift 
 from DAO import DAO
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 
 @app.route('/')
 def index():

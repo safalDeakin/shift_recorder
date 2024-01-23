@@ -1,25 +1,48 @@
 version: "3"
 services:
 
-  app:
+  shift_recorder:
     build: app
-    container_name: com.recorder.api
+    image: shift_recorder/app:${BUILD_VERSION}
+    container_name: com.shift_recorder.api
     restart: always
     expose:
       - 5000
     volumes:
-      - ./app:/app/code
+      - ./shift_recorder:/app/code
 
   proxy:
     build: proxy
-    container_name: com.recorder.proxy
+    image: shift_recorder/proxy:${BUILD_VERSION}
+    container_name: com.shift_recorder.proxy
     restart: always
     ports: 
       - 80:80
       - 8080:80
+  
+  postgres:
+    build: data_server/postgres
+    image: shift_recorder/data_server/postgres:${BUILD_VERSION}
+    container_name: com.data_server.postgres
+    restart: always
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # pg_admin:
+  #   build: ./shift_recorder/data_server/pg_admin
+  #   image: shift_recorder/data_server/pg_admin:${BUILD_VERSION}
+  #   # container_name: com.data_server.pg_admin
+  #   restart: always
+  #   ports: 
+  #     - 81:80
 
 volumes:
   app_data: {}
+  postgres_data: {}
 
 networks:
   default:
