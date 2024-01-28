@@ -1,0 +1,16 @@
+
+version: "3"
+
+services:
+  ansible:
+    build: ansible
+    container_name: com.ci_cd.ansible
+    restart: always
+    volumes:
+      - ./ansible:/temps
+    stdin_open : true
+    tty: true
+
+networks:
+  default:
+    name: ci_cd_network

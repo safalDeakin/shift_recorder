@@ -9,38 +9,135 @@ pipeline{
         }
         stage('Build'){
             steps{
-                sh '''cd shift_recorder/app
+                sh '''cd shift_recorder
                     export BUILD_VERSION=$BUILD_NUMBER
+                    docker compose down
                     docker compose build'''
-            }
-        }
-        stage('Start'){
-            steps{
-                  sh '''cd shift_recorder/app
-                    export BUILD_VERSION=$BUILD_NUMBER
-                    docker compose down'''
             }
         }
         stage('UnitTest'){
             steps{
-                  sh '''cd shift_recorder/app
+                  sh '''cd shift_recorder
+                    ls ./app
                     export BUILD_VERSION=$BUILD_NUMBER
                     docker compose up --detach'''
             }
         }
         stage('IntegrationTest'){
             steps{
-                echo "$BUILD_NUMBER"
                 echo "We are in the IntegrationTest stage"
             }
         }
     }
     post {
                     success{
-                        echo " Successfull"
+                        echo "Successfully Integrated. Safe to pull"
                     }
                     failure{
-                        echo "Not Successful"
+                        echo "Not Successful."
                     }
                 }
 }
+
+// JenkinsFile for Release Branch
+// pipeline{
+//     agent any
+//     stages{
+//         stage('Initialization'){
+//             steps{
+//                git branch: 'main', url: 'https://github.com/safalDeakin/shift_recorder/'
+//             }
+//         }
+//         stage('Build'){
+//             steps{
+//                 sh '''cd shift_recorder
+//                     export BUILD_VERSION=$BUILD_NUMBER
+//                     docker compose down
+//                     docker compose build'''
+//             }
+//         }
+//         stage('UnitTest'){
+//             steps{
+//                   sh '''cd shift_recorder
+//                     export BUILD_VERSION=$BUILD_NUMBER
+//                     docker compose up --detach'''
+//             }
+//         }
+//         stage('IntegrationTest'){
+//             steps{
+//                 echo "We are in the IntegrationTest stage"
+//             }
+//         }
+        
+//         stage('Release'){
+//             steps{
+//                 sh '''cd shift_recorder
+//                     export BUILD_VERSION=$BUILD_NUMBER
+//                     docker compose push'''
+//             }
+//         }
+//         stage('Review/Approval'){
+//             steps{
+//                   sh '''
+//                     cd shift_recorder
+//                     '''
+//                   timeout(time:1, unit:'DAYS'){
+//                       input message: 'Approve Pre-Production Deployment? (Please review the pipeline logs before selecting..)'
+//                   }
+//             }
+//         }
+//         stage('Deploy'){
+//             steps{
+//                   echo "DEPLOYING TO PRE PROD"
+//             }
+//         }
+        
+//         stage('Start Pre-Prod Testing'){
+//             steps{
+//                 build job: 'shift_recorder_pre_prod_testing',
+//                     parameters: [
+//                                 [
+//                                   $class: 'StringParameterValue',
+//                                   name: 'BUILD_VERSION',
+//                                   value: '$BUILD_NUMBER',
+//                                 ]
+//                           ]
+//             }
+//         }
+//     }
+//     post {
+//         success{
+//                 mail to: 'safal0079.tech@gmail.com',
+//                 bcc: '',
+//                 cc: '',
+//                 from: '',
+//                 replyTo: '',
+//                 subject: 'BUILD SUCCESS NOTIFICATION',
+//                 body: """Hi Team,
+                
+//                 Build #$BUILD_NUMBER is successful, please go through the url
+//                 $BUILD_URL
+//                 buildTag: $BUILD_NUMBER
+//                 and verify the details.
+//                 Regards,
+//                 Safal Shrestha"""
+
+//             }
+//             failure{
+//                 mail to: 'safal0079.tech@gmail.com',
+//                 bcc: '',
+//                 cc: '',
+//                 from: '',
+//                 replyTo: '',
+//                 subject: 'BUILD FAILURE NOTIFICATION',
+                
+//                 body: """Hi Team,
+//                     Build #$BUILD_NUMBER is unsuccessful, please go through the url
+//                     $BUILD_URL
+//                     and verify the details.
+//                     buildTag: $BUILD_NUMBER
+//                     Regards,
+//                     Safal Shrestha"""
+//             }
+//         }
+// }
