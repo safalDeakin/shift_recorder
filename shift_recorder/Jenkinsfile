@@ -11,20 +11,14 @@ pipeline{
             steps{
                 sh '''cd shift_recorder
                     export BUILD_VERSION=$BUILD_NUMBER
+                    docker compose down
                     docker compose build'''
-            }
-        }
-        stage('Start'){
-            steps{
-                  sh '''
-                    cd shift_recorder
-                    export BUILD_VERSION=$BUILD_NUMBER
-                    docker compose down'''
             }
         }
         stage('UnitTest'){
             steps{
                   sh '''cd shift_recorder
+                    ls ./app
                     export BUILD_VERSION=$BUILD_NUMBER
                     docker compose up --detach'''
             }
@@ -37,10 +31,88 @@ pipeline{
     }
     post {
                     success{
-                        echo " Successfull"
+                        echo "Successfully Integrated. Safe to pull"
                     }
                     failure{
-                        echo "Not Successful"
+                        echo "Not Successful."
                     }
                 }
 }
+
+
+//
+// JenkinsFile CD for Release Branch
+// pipeline{
+//     agent any
+//     stages{
+//         stage('Initialization'){
+//             steps{
+//                echo "THIS IS INITIALIZATION"
+//             }
+//         }
+//         stage('Release'){
+//             steps{
+//                 sh '''cd shift_recorder
+//                     export BUILD_VERSION=$BUILD_NUMBER
+//                     docker compose push'''
+//             }
+//         }
+//         stage('Review/Approval'){
+//             steps{
+//                   sh '''
+//                     cd shift_recorder
+//                     '''
+//                   timeout(time:1, unit:'DAYS'){
+//                       input message: 'Approve Pre-Production Deployment? (Please review the pipeline logs before selecting..)'
+//                   }
+//             }
+//         }
+//         stage('Deploy'){
+//             steps{
+//                   echo "DEPLOYING TO PRE PROD"
+//             }
+//         }
+//         stage('Test'){
+//             steps{
+//                 echo "We are in the User Test stage"
+//             }
+//         }
+//     }
+//     post {
+//         always { mail to: 'safal0079.tech@gmail.com',
+//                 Subiect: "Job 'S{JOB _NAME}' (${BUILD_NUMBER}) is waiting for input",
+//                 body: "Please go to ${BUILD_URL} and review/verify the build output."}
+
+//         success{
+//                 mail bcc: '',
+//                 cc: '',
+//                 from: '',
+//                 replyTo: '',
+//                 subject: 'BUILD SUCCESS NOTIFICATION',
+//                 to: 'safal0079.tech@gmail.com'
+//                 body: """Hi Team,
+                
+//                 Build #$BUILD_NUMBER is successful, please go through the url
+//                 $BUILD_URL
+//                 and verify the details.
+//                 Regards,
+//                 Safal Shrestha"""
+
+//             }
+//             failure{
+//                 mail bcc: '',
+//                 cc: '',
+//                 from: '',
+//                 replyTo: '',
+//                 subject: 'BUILD FAILURE NOTIFICATION',
+//                 to: 'safal0079.tech@gmail.com'
+//                 body: """Hi Team,
+                
+//                 Build #$BUILD_NUMBER is unsuccessful, please go through the url
+//                 $BUILD_URL
+//                 and verify the details.
+//                 Regards,
+//                 Safal Shrestha"""
+//             }
+//         }
+// }
