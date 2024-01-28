@@ -39,17 +39,36 @@ pipeline{
                 }
 }
 
-
-//
-// JenkinsFile CD for Release Branch
+// JenkinsFile for Release Branch
 // pipeline{
 //     agent any
 //     stages{
 //         stage('Initialization'){
 //             steps{
-//                echo "THIS IS INITIALIZATION"
+//                git branch: 'main', url: 'https://github.com/safalDeakin/shift_recorder/'
 //             }
 //         }
+//         stage('Build'){
+//             steps{
+//                 sh '''cd shift_recorder
+//                     export BUILD_VERSION=$BUILD_NUMBER
+//                     docker compose down
+//                     docker compose build'''
+//             }
+//         }
+//         stage('UnitTest'){
+//             steps{
+//                   sh '''cd shift_recorder
+//                     export BUILD_VERSION=$BUILD_NUMBER
+//                     docker compose up --detach'''
+//             }
+//         }
+//         stage('IntegrationTest'){
+//             steps{
+//                 echo "We are in the IntegrationTest stage"
+//             }
+//         }
+        
 //         stage('Release'){
 //             steps{
 //                 sh '''cd shift_recorder
@@ -72,47 +91,53 @@ pipeline{
 //                   echo "DEPLOYING TO PRE PROD"
 //             }
 //         }
-//         stage('Test'){
+        
+//         stage('Start Pre-Prod Testing'){
 //             steps{
-//                 echo "We are in the User Test stage"
+//                 build job: 'shift_recorder_pre_prod_testing',
+//                     parameters: [
+//                                 [
+//                                   $class: 'StringParameterValue',
+//                                   name: 'BUILD_VERSION',
+//                                   value: '$BUILD_NUMBER',
+//                                 ]
+//                           ]
 //             }
 //         }
 //     }
 //     post {
-//         always { mail to: 'safal0079.tech@gmail.com',
-//                 Subiect: "Job 'S{JOB _NAME}' (${BUILD_NUMBER}) is waiting for input",
-//                 body: "Please go to ${BUILD_URL} and review/verify the build output."}
-
 //         success{
-//                 mail bcc: '',
+//                 mail to: 'safal0079.tech@gmail.com',
+//                 bcc: '',
 //                 cc: '',
 //                 from: '',
 //                 replyTo: '',
 //                 subject: 'BUILD SUCCESS NOTIFICATION',
-//                 to: 'safal0079.tech@gmail.com'
 //                 body: """Hi Team,
                 
 //                 Build #$BUILD_NUMBER is successful, please go through the url
 //                 $BUILD_URL
+//                 buildTag: $BUILD_NUMBER
 //                 and verify the details.
 //                 Regards,
 //                 Safal Shrestha"""
 
 //             }
 //             failure{
-//                 mail bcc: '',
+//                 mail to: 'safal0079.tech@gmail.com',
+//                 bcc: '',
 //                 cc: '',
 //                 from: '',
 //                 replyTo: '',
 //                 subject: 'BUILD FAILURE NOTIFICATION',
-//                 to: 'safal0079.tech@gmail.com'
-//                 body: """Hi Team,
                 
-//                 Build #$BUILD_NUMBER is unsuccessful, please go through the url
-//                 $BUILD_URL
-//                 and verify the details.
-//                 Regards,
-//                 Safal Shrestha"""
+//                 body: """Hi Team,
+//                     Build #$BUILD_NUMBER is unsuccessful, please go through the url
+//                     $BUILD_URL
+//                     and verify the details.
+//                     buildTag: $BUILD_NUMBER
+//                     Regards,
+//                     Safal Shrestha"""
 //             }
 //         }
 // }
