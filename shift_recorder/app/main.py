@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-from model import Staff, Shift 
-from shift_recorder.app.src.DAO import DAO
+from src.model import Staff, Shift 
+from src.DAO import DAO
 
 app = Flask(__name__, template_folder='src/templates')
 
