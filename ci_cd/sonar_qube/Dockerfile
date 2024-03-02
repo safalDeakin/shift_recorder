@@ -1,0 +1,3 @@
+FROM sonarqube:latest
+ENV SONARQUBE_JDBC_USERNAME jenkins
+ENV SONARQUBE_JDBC_PASSWORD jenkinspass

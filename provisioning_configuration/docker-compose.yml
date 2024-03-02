@@ -4,7 +4,7 @@ version: "3"
 services:
   ansible:
     build: ansible
-    container_name: com.ci_cd.ansible
+    container_name: com.provision.ansible
     restart: always
     volumes:
       - ./ansible:/temps

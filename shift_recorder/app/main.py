@@ -1,8 +1,8 @@
 from flask import Flask, render_template
 from model import Staff, Shift 
-from DAO import DAO
+from shift_recorder.app.src.DAO import DAO
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='src/templates')
 
 @app.route('/')
 def index():

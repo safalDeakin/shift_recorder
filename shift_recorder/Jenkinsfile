@@ -40,12 +40,32 @@ pipeline{
 }
 
 // JenkinsFile for Release Branch
+// pipeline{// JenkinsFile for Release Branch
 // pipeline{
 //     agent any
 //     stages{
 //         stage('Initialization'){
 //             steps{
 //                git branch: 'main', url: 'https://github.com/safalDeakin/shift_recorder/'
+//             }
+//         }
+//         stage('Sonar-Scan'){
+//             environment{
+//                 scannerHome = tool 'sonar5.0'
+//             }
+//             steps{
+//                 withSonarQubeEnv('sonar'){
+//                     sh ''' 
+//                             ${scannerHome}/bin/sonar-scanner \
+//                             -Dsonar.projectKey=shift_recorder \
+//                             -Dsonar.projectBaseDir=shift_recorder/app
+//                             -Dsonar.projectName=shift_recorder \
+//                             -Dsonar.projectVersion=1.0 \
+//                             -Dsonar.sources= shift_recorder/app
+//                             -Dsonar.login=jenkins \
+//                             -Dsonar.password=jenkinspass'''
+//                 }
+                
 //             }
 //         }
 //         stage('Build'){
@@ -140,4 +160,4 @@ pipeline{
 //                     Safal Shrestha"""
 //             }
 //         }
-// }
+// }   
