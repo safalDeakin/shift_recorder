@@ -40,7 +40,7 @@ pipeline{
 }
 
 // JenkinsFile for Release Branch
-// pipeline{// JenkinsFile for Release Branch
+
 // pipeline{
 //     agent any
 //     stages{
@@ -61,7 +61,7 @@ pipeline{
 //                             -Dsonar.projectBaseDir=shift_recorder/app
 //                             -Dsonar.projectName=shift_recorder \
 //                             -Dsonar.projectVersion=1.0 \
-//                             -Dsonar.sources= shift_recorder/app
+//                             -Dsonar.sources= shift_recorder/app/src \
 //                             -Dsonar.login=jenkins \
 //                             -Dsonar.password=jenkinspass'''
 //                 }
