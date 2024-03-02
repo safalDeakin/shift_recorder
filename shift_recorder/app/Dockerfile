@@ -5,7 +5,7 @@ ENV MAIN_DIR /app
 RUN mkdir -p $MAIN_DIR
 COPY . $MAIN_DIR
 WORKDIR $MAIN_DIR
-RUN ./build-ubuntu.sh
+RUN ./install-ubuntu.sh
 CMD ["python3", "app.py"]
 
 
