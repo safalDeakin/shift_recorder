@@ -5,7 +5,10 @@ ENV MAIN_DIR /app
 RUN mkdir -p $MAIN_DIR
 COPY . $MAIN_DIR
 WORKDIR $MAIN_DIR
-RUN ./install-ubuntu.sh
+RUN apt update && \
+    apt install -y python3-pip &&\
+    pip3 install --no-cache-dir --upgrade -r requirements.txt
+
 CMD ["python3", "app.py"]
 
 
